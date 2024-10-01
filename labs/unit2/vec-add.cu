@@ -1,26 +1,31 @@
 #include <iostream>
 #include <vector>
-#include <cuda_runtime.h>
-#include <device_launch_parameters.h>
+#include <cuda_runtime.h> // Includes basic CUDA runtime APIs and data types
+#include <device_launch_parameters.h> // Provides parameters for launching CUDA kernels
 #include <cmath> //  to compare float values
 #include <cassert> // For assertion
 
-#include "gpuErrchk.h"
+#include "gpuErrchk.h" // Custom header file for CUDA error checking
 
 using namespace std;
 
+// Defines a constant representing the number of elements in vectors A and B
 constexpr size_t ELEMENTS = 2048;
 
 __global__ void vecadd(const int *A, const int *B, int *C)
 {
-	// Get block index
+	// Get block index // The index of the block in the grid (1D grid in this case)
 	unsigned int block_idx = blockIdx.x;
-	// Get thread index
+
+	// Get thread index // The index of the thread within the block
 	unsigned int thread_idx = threadIdx.x;
-	// Get the number of threads per block
+
+	// Get the number of threads per block // The number of threads in each block (threads per block)
 	unsigned int block_dim = blockDim.x;
+
 	// Get the thread's unique ID - (block_idx * block_dim) + thread_idx;
 	unsigned int idx = (block_idx * block_dim) + thread_idx;
+
 	// Add corresponding locations of A and B and store in C
 	C[idx] = A[idx] + B[idx];
 }
@@ -30,12 +35,15 @@ __global__ void simple_multiply(float *output_C, unsigned int width_A, unsigned 
 {
     // Get global position in Y direction
     unsigned int row = (blockIdx.y * 1024) + threadIdx.y;
+
     // Get global position in X direction
     unsigned int col = (blockIdx.x * 1024) + threadIdx.x;
 
  // check that the row and column are within matrix bounds
     if (row < height_A && col < width_B)
     {
+
+        // Initialize the sum for the current element in matrix C
         float sum = 0.0f;
 
         // Compute the dot product of row from A and column from B
@@ -124,23 +132,23 @@ void print_matrix(const float* matrix, unsigned int rows, unsigned int cols)
 
 int main(int argc, char **argv)
 {
-	// Create host memory
+	// Create host memory  for the vector addition operation
 	auto data_size = sizeof(int) * ELEMENTS;
-	vector<int> A(ELEMENTS);    // Input aray
-	vector<int> B(ELEMENTS);    // Input array
-	vector<int> C(ELEMENTS);    // Output array
+	vector<int> A(ELEMENTS);    // Input aray // Allocate memory for vector A on the host
+	vector<int> B(ELEMENTS);    // Input array // Allocate memory for vector B on the host
+	vector<int> C(ELEMENTS);    // Output array // Allocate memory for vector C on the host (result)
 
-	// Initialise input data
+	// Initialise input data for vector addition
 	for (unsigned int i = 0; i < ELEMENTS; ++i)
-		A[i] = B[i] = i;
+		A[i] = B[i] = i; // Fill vectors A and B with sequential values
 
-	// Declare buffers
+	// Declare buffers for vector addition
 	int *buffer_A, *buffer_B, *buffer_C;
 
-	// Initialise buffers
-	cudaMalloc((void**)&buffer_A, data_size);
-	cudaMalloc((void**)&buffer_B, data_size);
-	cudaMalloc((void**)&buffer_C, data_size);
+	// Initialise buffers // Allocate device memory
+	cudaMalloc((void**)&buffer_A, data_size);// Allocate memory for buffer_A on the GPU
+	cudaMalloc((void**)&buffer_B, data_size);// Allocate memory for buffer_B on the GPU
+	cudaMalloc((void**)&buffer_C, data_size);// Allocate memory for buffer_C on the GPU
 
 	// Write host data to device
 	cudaMemcpy(buffer_A, &A[0], data_size, cudaMemcpyHostToDevice);
@@ -157,12 +165,12 @@ int main(int argc, char **argv)
 	// Read output buffer back to the host
 	cudaMemcpy(&C[0], buffer_C, data_size, cudaMemcpyDeviceToHost);
 
-	// Clean up resources
+	// Free device memory used for vector addition
 	cudaFree(buffer_A);
 	cudaFree(buffer_B);
 	cudaFree(buffer_C);
 
-	// Test that the results are correct
+	// Check results for vector addition
 	for (int i = 0; i < 2048; ++i)
 		if (C[i] != i + i)
 			cout << "Error: " << i << endl;
