@@ -71,7 +71,7 @@ int calc_token_occurrences(const std::vector<char>& data, const char* token)
 int main()
 {
     // Example chosen file
-    const char * filepath = "dataset/shakespeare.txt";
+    const char * filepath = "C:/set10108-cw/set10108/labs/cw1/dataset/shakespeare.txt";
 
     std::vector<char> file_data = read_file(filepath);
     if (file_data.empty())
