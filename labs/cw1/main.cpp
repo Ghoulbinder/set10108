@@ -7,6 +7,7 @@
 #include <chrono>
 
 //to do list
+//check the text file for improvements
 
 using namespace std;
 using namespace std::chrono;

@@ -112,7 +112,7 @@ int main(int argc, char **argv)
         cudaEventRecord(start);
 
         // Launch kernel
-        int blockSize = 256;
+        int blockSize = 256;      //256
         int gridSize = (fileSize + blockSize - 1) / blockSize;
         calc_token_occurrences_kernel<<<gridSize, blockSize>>>(d_data, fileSize, d_token, tokenLen, d_numOccurrences);
 
