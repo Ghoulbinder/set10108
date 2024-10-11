@@ -4,10 +4,12 @@
 #include <vector>
 #include <algorithm>
 #include <string>
+#include <chrono>
 
 //to do list
 
 using namespace std;
+using namespace std::chrono;
 
 std::vector<char> read_file(const char* filename)
 {
@@ -87,15 +89,21 @@ int main()
     std::cout << "CPU Results:" << endl;
     for(const char * word : words)
     {
+        auto start = high_resolution_clock::now(); // Start timing
+
         int occurrences = calc_token_occurrences(file_data, word);
-        std::cout << "Found "<< occurrences << " occurrences of word: " << word << std::endl;
+
+        auto stop = high_resolution_clock::now(); // Stop timing
+        auto duration = duration_cast<milliseconds>(stop - start);
+
+        std::cout << "Found " << occurrences << " occurrences of word: " << word << " in " << duration.count() << " ms" << std::endl;
     }
     //----------------------------------------------------------------------------------------
     
     
  
     // Run the CUDA program to generate the results
-    int retCode = system("C:/set10108-cw/set10108/labs/cw1/build/Debug/cw1-cuda.exe"); // Replace with the actual path if necessary
+    int retCode = system("C:/set10108-cw/set10108/labs/cw1/build/Debug/cw1-cuda.exe"); 
     if (retCode != 0) {
         cerr << "Error: Failed to run the CUDA program." << endl;
         return -1;
