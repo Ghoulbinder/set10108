@@ -84,6 +84,7 @@ int main()
 
     // Example word list
     const char * words[] = {"sword", "fire", "death", "love", "hate", "the", "man", "woman"};
+    std::cout << "CPU Results:" << endl;
     for(const char * word : words)
     {
         int occurrences = calc_token_occurrences(file_data, word);
@@ -100,20 +101,7 @@ int main()
         return -1;
     }
 
-    // Open the result file to read the output
-    ifstream inFile("gpu_results.txt");
-    if (!inFile) {
-        cerr << "Error: Could not open the result file gpu_results.txt" << endl;
-        return -1;
-    }
 
-    // Read and display the content of the file
-    string line;
-    while (getline(inFile, line)) {
-        cout << line << endl;
-    }
-
-    inFile.close();
 
     return 0;
 }

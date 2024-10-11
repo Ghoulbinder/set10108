@@ -64,13 +64,8 @@ int main(int argc, char **argv)
     const char* tokens[] = {"hate", "love", "war", "peace", "death"};
     int numTokens = sizeof(tokens) / sizeof(tokens[0]);
 
-    // Open output file
-    ofstream outFile("gpu_results.txt");
-    if (!outFile) {
-        cerr << "Error: Could not open the output file." << endl;
-        delete[] fileData;
-        return -1;
-    }
+    // Add header for GPU results in the console
+    cout << "GPU Results:" << endl;  // Console output to indicate GPU results
 
     // Allocate memory on GPU for the data buffer
     char *d_data;
@@ -78,7 +73,6 @@ int main(int argc, char **argv)
     if (err != cudaSuccess) {
         cerr << "Error allocating device memory for data: " << cudaGetErrorString(err) << endl;
         delete[] fileData;
-        outFile.close();
         return -1;
     }
     cudaMemcpy(d_data, fileData, fileSize, cudaMemcpyHostToDevice);
@@ -125,20 +119,13 @@ int main(int argc, char **argv)
         // Copy result back to host
         cudaMemcpy(&numOccurrences, d_numOccurrences, sizeof(int), cudaMemcpyDeviceToHost);
 
-        // Write result to the output file
-        outFile << "Occurrences of word '" << token << "': " << numOccurrences << endl;
-        outFile.flush(); // Ensure the data is written to the file immediately
+        // Print debug statement to ensure token has been processed
+        cout << "Processed token '" << token << "' with occurrences: " << numOccurrences << endl;
 
         // Free memory allocated for token and occurrences count
         cudaFree(d_token);
         cudaFree(d_numOccurrences);
-
-        // Print debug statement to ensure token has been processed
-        cout << "Processed token '" << token << "' with occurrences: " << numOccurrences << endl;
     }
-
-    // Close the output file
-    outFile.close();
 
     // Free memory
     cudaFree(d_data);
