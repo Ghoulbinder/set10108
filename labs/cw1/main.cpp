@@ -3,8 +3,11 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <string>
 
 //to do list
+
+using namespace std;
 
 std::vector<char> read_file(const char* filename)
 {
@@ -86,6 +89,31 @@ int main()
         int occurrences = calc_token_occurrences(file_data, word);
         std::cout << "Found "<< occurrences << " occurrences of word: " << word << std::endl;
     }
+    //----------------------------------------------------------------------------------------
+    
+    
+ 
+    // Run the CUDA program to generate the results
+    int retCode = system("C:/set10108-cw/set10108/labs/cw1/build/Debug/cw1-cuda.exe"); // Replace with the actual path if necessary
+    if (retCode != 0) {
+        cerr << "Error: Failed to run the CUDA program." << endl;
+        return -1;
+    }
+
+    // Open the result file to read the output
+    ifstream inFile("gpu_results.txt");
+    if (!inFile) {
+        cerr << "Error: Could not open the result file gpu_results.txt" << endl;
+        return -1;
+    }
+
+    // Read and display the content of the file
+    string line;
+    while (getline(inFile, line)) {
+        cout << line << endl;
+    }
+
+    inFile.close();
 
     return 0;
 }
