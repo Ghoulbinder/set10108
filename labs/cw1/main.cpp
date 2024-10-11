@@ -4,6 +4,8 @@
 #include <vector>
 #include <algorithm>
 
+//to do list
+
 std::vector<char> read_file(const char* filename)
 {
     // Open the file in binary mode
