@@ -108,6 +108,9 @@ int main(int argc, char **argv)
         }
         cudaMemcpy(d_numOccurrences, &numOccurrences, sizeof(int), cudaMemcpyHostToDevice);
 
+          // Record start event
+        cudaEventRecord(start);
+
         // Launch kernel
         int blockSize = 256;
         int gridSize = (fileSize + blockSize - 1) / blockSize;
