@@ -1,0 +1,12 @@
+Number of devices: 1
+Device 0
+Name NVIDIA GeForce RTX 3070
+Revision 8.6
+Memory 8191MB
+Warp Size 32
+Clock 1725000
+Multiprocessors 46
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1-cuda.exe (process 22492) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
