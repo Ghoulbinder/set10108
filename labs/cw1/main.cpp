@@ -79,16 +79,16 @@ int calc_token_occurrences(const std::vector<char>& data, const char* token)
 int main()
 {
     // Example chosen file
-    const char * filepath = "C:/set10108-cw/set10108/labs/cw1/dataset/shakespeare.txt";
+    const char* filepath = "C:/set10108-cw/set10108/labs/cw1/dataset/beowulf.txt";
 
     std::vector<char> file_data = read_file(filepath);
     if (file_data.empty())
         return -1;
 
     // Example word list
-    const char * words[] = {"sword", "fire", "death", "love", "hate", "the", "man", "woman"};
+    const char* words[] = { "sword", "fire", "death", "love", "hate", "the", "man", "woman" };
     std::cout << "CPU Results:" << endl;
-    for(const char * word : words)
+    for (const char* word : words)
     {
         auto start = high_resolution_clock::now(); // Start timing
 
@@ -100,11 +100,11 @@ int main()
         std::cout << "Found " << occurrences << " occurrences of word: " << word << " in " << duration.count() << " ms" << std::endl;
     }
     //----------------------------------------------------------------------------------------
-    
-    
- 
+
+
+
     // Run the CUDA program to generate the results
-    int retCode = system("C:/set10108-cw/set10108/labs/cw1/build/Debug/cw1-cuda.exe"); 
+    int retCode = system("C:/set10108-cw/set10108/labs/cw1/build/Debug/cw1-cuda.exe");
     if (retCode != 0) {
         cerr << "Error: Failed to run the CUDA program." << endl;
         return -1;

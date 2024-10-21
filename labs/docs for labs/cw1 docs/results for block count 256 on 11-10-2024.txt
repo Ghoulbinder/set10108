@@ -1,5 +1,9 @@
 block size 256
 
+Global memory
+
+Shakespear.txt
+
 Successfully read 5638519 bytes from the file.
 CPU Results:
 Found 374 occurrences of word: sword in 31 ms
@@ -122,3 +126,101 @@ C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 20800) exited with
 To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
 Press any key to close this window . . .
 
+
+biowulf
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 1 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 1 ms
+Found 6 occurrences of word: hate in 1 ms
+Found 3332 occurrences of word: the in 2 ms
+Found 59 occurrences of word: man in 2 ms
+Found 17 occurrences of word: woman in 2 ms
+GPU Results:
+Processed token 'sword' with occurrences: 374 in 2.91533 ms
+Processed token 'fire' with occurrences: 321 in 0.07168 ms
+Processed token 'death' with occurrences: 986 in 0.075776 ms
+Processed token 'love' with occurrences: 2465 in 0.069632 ms
+Processed token 'hate' with occurrences: 188 in 0.068608 ms
+Processed token 'the' with occurrences: 30588 in 0.08192 ms
+Processed token 'man' with occurrences: 2108 in 0.09728 ms
+Processed token 'woman' with occurrences: 466 in 0.069632 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 15400) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
+
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 1 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 1 ms
+Found 6 occurrences of word: hate in 1 ms
+Found 3332 occurrences of word: the in 1 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Processed token 'sword' with occurrences: 374 in 3.65261 ms
+Processed token 'fire' with occurrences: 321 in 0.065536 ms
+Processed token 'death' with occurrences: 986 in 0.069632 ms
+Processed token 'love' with occurrences: 2465 in 0.06816 ms
+Processed token 'hate' with occurrences: 188 in 0.073728 ms
+Processed token 'the' with occurrences: 30588 in 0.084672 ms
+Processed token 'man' with occurrences: 2108 in 0.060416 ms
+Processed token 'woman' with occurrences: 466 in 0.064512 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 25132) exited with code 0 (0x0).
+Press any key to close this window . . .
+
+crime_and_punishment
+
+Successfully read 1201748 bytes from the file.
+CPU Results:
+Found 0 occurrences of word: sword in 6 ms
+Found 20 occurrences of word: fire in 6 ms
+Found 52 occurrences of word: death in 7 ms
+Found 75 occurrences of word: love in 6 ms
+Found 12 occurrences of word: hate in 6 ms
+Found 8016 occurrences of word: the in 7 ms
+Found 481 occurrences of word: man in 6 ms
+Found 203 occurrences of word: woman in 6 ms
+GPU Results:
+Processed token 'sword' with occurrences: 374 in 2.75456 ms
+Processed token 'fire' with occurrences: 321 in 0.065536 ms
+Processed token 'death' with occurrences: 986 in 0.06656 ms
+Processed token 'love' with occurrences: 2465 in 0.068608 ms
+Processed token 'hate' with occurrences: 188 in 0.069632 ms
+Processed token 'the' with occurrences: 30588 in 0.083968 ms
+Processed token 'man' with occurrences: 2108 in 0.06656 ms
+Processed token 'woman' with occurrences: 466 in 0.065536 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 19580) exited with code 0 (0x0).
+Press any key to close this window . . .
+
+Successfully read 1201748 bytes from the file.
+CPU Results:
+Found 0 occurrences of word: sword in 6 ms
+Found 20 occurrences of word: fire in 6 ms
+Found 52 occurrences of word: death in 6 ms
+Found 75 occurrences of word: love in 6 ms
+Found 12 occurrences of word: hate in 6 ms
+Found 8016 occurrences of word: the in 7 ms
+Found 481 occurrences of word: man in 6 ms
+Found 203 occurrences of word: woman in 6 ms
+GPU Results:
+Processed token 'sword' with occurrences: 374 in 3.23136 ms
+Processed token 'fire' with occurrences: 321 in 0.065536 ms
+Processed token 'death' with occurrences: 986 in 0.065536 ms
+Processed token 'love' with occurrences: 2465 in 0.066464 ms
+Processed token 'hate' with occurrences: 188 in 0.068608 ms
+Processed token 'the' with occurrences: 30588 in 0.082944 ms
+Processed token 'man' with occurrences: 2108 in 0.068608 ms
+Processed token 'woman' with occurrences: 466 in 0.062368 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 19788) exited with code 0 (0x0).
+Press any key to close this window . . .
