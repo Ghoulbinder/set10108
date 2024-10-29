@@ -33,7 +33,7 @@ __global__ void calc_token_occurrences_kernel(char *data, int dataSize, char *to
 
 int main(int argc, char **argv)
 {
-    const char* filepath = "C:/set10108-cw/set10108/labs/cw1/dataset/shakespeare.txt";
+    const char* filepath = "C:/set10108-cw/set10108/labs/cw1/dataset/beowulf.txt";
     ifstream file(filepath, ios::binary);
 
     if (!file) {
