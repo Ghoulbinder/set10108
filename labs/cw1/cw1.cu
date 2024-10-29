@@ -79,7 +79,7 @@ int main(int argc, char **argv)
     cudaEventCreate(&stop);
 
     // CUDA Occupancy API to calculate maximum number of active blocks per SM
-    int blockSize = 256;  // Block size (threads per block)
+    int blockSize = 1024;  // Block size (threads per block)
     int numBlocksPerSM;
     cudaOccupancyMaxActiveBlocksPerMultiprocessor(&numBlocksPerSM, calc_token_occurrences_kernel, blockSize, 0);
     std::cout << "Max active blocks per SM: " << numBlocksPerSM << std::endl;
