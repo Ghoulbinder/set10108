@@ -1,0 +1,466 @@
+block size 32  beowulf
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 2 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 1 ms
+Found 6 occurrences of word: hate in 1 ms
+Found 3332 occurrences of word: the in 3 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Max active blocks per SM: 16
+Processed token 'sword' with occurrences: 90 in 0.045056 ms
+Processed token 'fire' with occurrences: 50 in 0.024576 ms
+Processed token 'death' with occurrences: 67 in 0.024448 ms
+Processed token 'love' with occurrences: 8 in 0.064512 ms
+Processed token 'hate' with occurrences: 6 in 0.028736 ms
+Processed token 'the' with occurrences: 3332 in 0.0256 ms
+Processed token 'man' with occurrences: 59 in 0.01536 ms
+Processed token 'woman' with occurrences: 17 in 0.034816 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 15944) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 2 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 1 ms
+Found 6 occurrences of word: hate in 2 ms
+Found 3332 occurrences of word: the in 2 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Max active blocks per SM: 16
+Processed token 'sword' with occurrences: 90 in 0.041984 ms
+Processed token 'fire' with occurrences: 50 in 0.02048 ms
+Processed token 'death' with occurrences: 67 in 0.02048 ms
+Processed token 'love' with occurrences: 8 in 0.063488 ms
+Processed token 'hate' with occurrences: 6 in 0.022528 ms
+Processed token 'the' with occurrences: 3332 in 0.019456 ms
+Processed token 'man' with occurrences: 59 in 0.019456 ms
+Processed token 'woman' with occurrences: 17 in 0.022528 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 17000) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 2 ms
+Found 50 occurrences of word: fire in 2 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 1 ms
+Found 6 occurrences of word: hate in 1 ms
+Found 3332 occurrences of word: the in 1 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Max active blocks per SM: 16
+Processed token 'sword' with occurrences: 90 in 0.037888 ms
+Processed token 'fire' with occurrences: 50 in 0.02048 ms
+Processed token 'death' with occurrences: 67 in 0.017984 ms
+Processed token 'love' with occurrences: 8 in 0.018432 ms
+Processed token 'hate' with occurrences: 6 in 0.02736 ms
+Processed token 'the' with occurrences: 3332 in 0.018432 ms
+Processed token 'man' with occurrences: 59 in 0.019456 ms
+Processed token 'woman' with occurrences: 17 in 0.022528 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 25484) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
+
+block size 64
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 2 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 1 ms
+Found 6 occurrences of word: hate in 2 ms
+Found 3332 occurrences of word: the in 2 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Max active blocks per SM: 16
+Processed token 'sword' with occurrences: 90 in 0.037888 ms
+Processed token 'fire' with occurrences: 50 in 0.019456 ms
+Processed token 'death' with occurrences: 67 in 0.009216 ms
+Processed token 'love' with occurrences: 8 in 0.016384 ms
+Processed token 'hate' with occurrences: 6 in 0.021504 ms
+Processed token 'the' with occurrences: 3332 in 0.018432 ms
+Processed token 'man' with occurrences: 59 in 0.019232 ms
+Processed token 'woman' with occurrences: 17 in 0.019456 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 28256) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 2 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 1 ms
+Found 6 occurrences of word: hate in 1 ms
+Found 3332 occurrences of word: the in 2 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Max active blocks per SM: 16
+Processed token 'sword' with occurrences: 90 in 0.03584 ms
+Processed token 'fire' with occurrences: 50 in 0.019456 ms
+Processed token 'death' with occurrences: 67 in 0.01536 ms
+Processed token 'love' with occurrences: 8 in 0.016384 ms
+Processed token 'hate' with occurrences: 6 in 0.016384 ms
+Processed token 'the' with occurrences: 3332 in 0.019456 ms
+Processed token 'man' with occurrences: 59 in 0.02048 ms
+Processed token 'woman' with occurrences: 17 in 0.015168 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 15288) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 2 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 1 ms
+Found 6 occurrences of word: hate in 1 ms
+Found 3332 occurrences of word: the in 1 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 2 ms
+GPU Results:
+Max active blocks per SM: 16
+Processed token 'sword' with occurrences: 90 in 0.054272 ms
+Processed token 'fire' with occurrences: 50 in 0.016384 ms
+Processed token 'death' with occurrences: 67 in 0.018432 ms
+Processed token 'love' with occurrences: 8 in 0.019456 ms
+Processed token 'hate' with occurrences: 6 in 0.018432 ms
+Processed token 'the' with occurrences: 3332 in 0.034816 ms
+Processed token 'man' with occurrences: 59 in 0.018432 ms
+Processed token 'woman' with occurrences: 17 in 0.016192 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 17628) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
+
+block size 128
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 2 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 1 ms
+Found 6 occurrences of word: hate in 1 ms
+Found 3332 occurrences of word: the in 1 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Max active blocks per SM: 12
+Processed token 'sword' with occurrences: 90 in 0.037888 ms
+Processed token 'fire' with occurrences: 50 in 0.018432 ms
+Processed token 'death' with occurrences: 67 in 0.016384 ms
+Processed token 'love' with occurrences: 8 in 0.017408 ms
+Processed token 'hate' with occurrences: 6 in 0.021504 ms
+Processed token 'the' with occurrences: 3332 in 0.02048 ms
+Processed token 'man' with occurrences: 59 in 0.007168 ms
+Processed token 'woman' with occurrences: 17 in 0.03584 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 27388) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 1 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 1 ms
+Found 6 occurrences of word: hate in 1 ms
+Found 3332 occurrences of word: the in 1 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Max active blocks per SM: 12
+Processed token 'sword' with occurrences: 90 in 0.031744 ms
+Processed token 'fire' with occurrences: 50 in 0.013312 ms
+Processed token 'death' with occurrences: 67 in 0.023552 ms
+Processed token 'love' with occurrences: 8 in 0.014336 ms
+Processed token 'hate' with occurrences: 6 in 0.016384 ms
+Processed token 'the' with occurrences: 3332 in 0.039936 ms
+Processed token 'man' with occurrences: 59 in 0.01536 ms
+Processed token 'woman' with occurrences: 17 in 0.01536 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 29944) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 1 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 1 ms
+Found 6 occurrences of word: hate in 1 ms
+Found 3332 occurrences of word: the in 1 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Max active blocks per SM: 12
+Processed token 'sword' with occurrences: 90 in 0.060256 ms
+Processed token 'fire' with occurrences: 50 in 0.016384 ms
+Processed token 'death' with occurrences: 67 in 0.043008 ms
+Processed token 'love' with occurrences: 8 in 0.04096 ms
+Processed token 'hate' with occurrences: 6 in 0.04096 ms
+Processed token 'the' with occurrences: 3332 in 0.04096 ms
+Processed token 'man' with occurrences: 59 in 0.054272 ms
+Processed token 'woman' with occurrences: 17 in 0.013024 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 17984) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
+
+block size 256
+
+
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 1 ms
+Found 50 occurrences of word: fire in 2 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 2 ms
+Found 6 occurrences of word: hate in 1 ms
+Found 3332 occurrences of word: the in 1 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Max active blocks per SM: 6
+Processed token 'sword' with occurrences: 90 in 0.03072 ms
+Processed token 'fire' with occurrences: 50 in 0.016384 ms
+Processed token 'death' with occurrences: 67 in 0.016384 ms
+Processed token 'love' with occurrences: 8 in 0.016384 ms
+Processed token 'hate' with occurrences: 6 in 0.017408 ms
+Processed token 'the' with occurrences: 3332 in 0.016384 ms
+Processed token 'man' with occurrences: 59 in 0.016384 ms
+Processed token 'woman' with occurrences: 17 in 0.014336 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 16376) exited with code 0 (0x0).
+Press any key to close this window . . .
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 1 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 1 ms
+Found 6 occurrences of word: hate in 1 ms
+Found 3332 occurrences of word: the in 2 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Max active blocks per SM: 6
+Processed token 'sword' with occurrences: 90 in 0.033792 ms
+Processed token 'fire' with occurrences: 50 in 0.01536 ms
+Processed token 'death' with occurrences: 67 in 0.017408 ms
+Processed token 'love' with occurrences: 8 in 0.012288 ms
+Processed token 'hate' with occurrences: 6 in 0.017408 ms
+Processed token 'the' with occurrences: 3332 in 0.018432 ms
+Processed token 'man' with occurrences: 59 in 0.01536 ms
+Processed token 'woman' with occurrences: 17 in 0.016384 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 27516) exited with code 0 (0x0).
+Press any key to close this window . . .
+
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 1 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 1 ms
+Found 6 occurrences of word: hate in 1 ms
+Found 3332 occurrences of word: the in 2 ms
+Found 59 occurrences of word: man in 2 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Max active blocks per SM: 6
+Processed token 'sword' with occurrences: 90 in 0.057344 ms
+Processed token 'fire' with occurrences: 50 in 0.01536 ms
+Processed token 'death' with occurrences: 67 in 0.018432 ms
+Processed token 'love' with occurrences: 8 in 0.018432 ms
+Processed token 'hate' with occurrences: 6 in 0.019424 ms
+Processed token 'the' with occurrences: 3332 in 0.018048 ms
+Processed token 'man' with occurrences: 59 in 0.038912 ms
+Processed token 'woman' with occurrences: 17 in 0.01536 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 19072) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
+
+
+block size 512
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 1 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 2 ms
+Found 8 occurrences of word: love in 1 ms
+Found 6 occurrences of word: hate in 1 ms
+Found 3332 occurrences of word: the in 2 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Max active blocks per SM: 3
+Processed token 'sword' with occurrences: 90 in 0.037888 ms
+Processed token 'fire' with occurrences: 50 in 0.018432 ms
+Processed token 'death' with occurrences: 67 in 0.018432 ms
+Processed token 'love' with occurrences: 8 in 0.019456 ms
+Processed token 'hate' with occurrences: 6 in 0.04608 ms
+Processed token 'the' with occurrences: 3332 in 0.018432 ms
+Processed token 'man' with occurrences: 59 in 0.019456 ms
+Processed token 'woman' with occurrences: 17 in 0.017408 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 27436) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 1 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 2 ms
+Found 6 occurrences of word: hate in 1 ms
+Found 3332 occurrences of word: the in 1 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Max active blocks per SM: 3
+Processed token 'sword' with occurrences: 90 in 0.034816 ms
+Processed token 'fire' with occurrences: 50 in 0.017408 ms
+Processed token 'death' with occurrences: 67 in 0.01536 ms
+Processed token 'love' with occurrences: 8 in 0.016384 ms
+Processed token 'hate' with occurrences: 6 in 0.01536 ms
+Processed token 'the' with occurrences: 3332 in 0.019456 ms
+Processed token 'man' with occurrences: 59 in 0.016384 ms
+Processed token 'woman' with occurrences: 17 in 0.021504 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 17592) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 2 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 1 ms
+Found 6 occurrences of word: hate in 2 ms
+Found 3332 occurrences of word: the in 2 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Max active blocks per SM: 3
+Processed token 'sword' with occurrences: 90 in 0.083968 ms
+Processed token 'fire' with occurrences: 50 in 0.017408 ms
+Processed token 'death' with occurrences: 67 in 0.017408 ms
+Processed token 'love' with occurrences: 8 in 0.009216 ms
+Processed token 'hate' with occurrences: 6 in 0.0192 ms
+Processed token 'the' with occurrences: 3332 in 0.021504 ms
+Processed token 'man' with occurrences: 59 in 0.016384 ms
+Processed token 'woman' with occurrences: 17 in 0.013312 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 17192) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
+
+block size 1024
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 1 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 2 ms
+Found 6 occurrences of word: hate in 1 ms
+Found 3332 occurrences of word: the in 2 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Max active blocks per SM: 1
+Processed token 'sword' with occurrences: 90 in 0.043008 ms
+Processed token 'fire' with occurrences: 50 in 0.021408 ms
+Processed token 'death' with occurrences: 67 in 0.019456 ms
+Processed token 'love' with occurrences: 8 in 0.017408 ms
+Processed token 'hate' with occurrences: 6 in 0.017408 ms
+Processed token 'the' with occurrences: 3332 in 0.018432 ms
+Processed token 'man' with occurrences: 59 in 0.013312 ms
+Processed token 'woman' with occurrences: 17 in 0.018432 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 9552) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 1 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 1 ms
+Found 6 occurrences of word: hate in 1 ms
+Found 3332 occurrences of word: the in 2 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Max active blocks per SM: 1
+Processed token 'sword' with occurrences: 90 in 0.03648 ms
+Processed token 'fire' with occurrences: 50 in 0.014336 ms
+Processed token 'death' with occurrences: 67 in 0.047104 ms
+Processed token 'love' with occurrences: 8 in 0.01536 ms
+Processed token 'hate' with occurrences: 6 in 0.041984 ms
+Processed token 'the' with occurrences: 3332 in 0.024576 ms
+Processed token 'man' with occurrences: 59 in 0.03072 ms
+Processed token 'woman' with occurrences: 17 in 0.013312 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 17244) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
+
+Successfully read 300506 bytes from the file.
+CPU Results:
+Found 90 occurrences of word: sword in 1 ms
+Found 50 occurrences of word: fire in 1 ms
+Found 67 occurrences of word: death in 1 ms
+Found 8 occurrences of word: love in 1 ms
+Found 6 occurrences of word: hate in 1 ms
+Found 3332 occurrences of word: the in 2 ms
+Found 59 occurrences of word: man in 1 ms
+Found 17 occurrences of word: woman in 1 ms
+GPU Results:
+Max active blocks per SM: 1
+Processed token 'sword' with occurrences: 90 in 0.038912 ms
+Processed token 'fire' with occurrences: 50 in 0.02048 ms
+Processed token 'death' with occurrences: 67 in 0.014336 ms
+Processed token 'love' with occurrences: 8 in 0.016384 ms
+Processed token 'hate' with occurrences: 6 in 0.019456 ms
+Processed token 'the' with occurrences: 3332 in 0.018432 ms
+Processed token 'man' with occurrences: 59 in 0.023552 ms
+Processed token 'woman' with occurrences: 17 in 0.017408 ms
+
+C:\set10108-cw\set10108\labs\cw1\build\Debug\cw1.exe (process 29164) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .
+
+
+
