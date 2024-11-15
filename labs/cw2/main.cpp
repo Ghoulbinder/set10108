@@ -12,6 +12,82 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+
+/*
+=====================================
+            COURSEWORK TO-DO LIST
+=====================================
+
+1. Setup and Initial Implementation:
+    - Initialize SFML and STB libraries.
+    - Create a main window using SFML for displaying images.
+    - Define file path for loading images.
+
+    - Load and display images:
+        - Create a function to load images from a specified folder.
+        - Loop through the folder to collect image file names into a list.
+        - Display the first image in the main window.
+
+2. Implement Image Sorting by Color Temperature:
+    - Define color temperature calculation:
+        - Create a function to calculate color temperature for an image.
+        - Load RGB data, convert RGB to color temperature using McCamy’s formula.
+        - Return color temperature.
+
+    - Sort images based on color temperature:
+        - Create a function to sort images by temperature from warmest to coolest.
+        - Sort images in ascending order to display them sequentially.
+
+3. Integrate Multithreading for Sorting:
+    - Move sorting to a separate thread:
+        - Define a threaded sorting function using `std::async` or `std::thread`.
+        - Lock the images list to avoid data races.
+        - Sort images by color temperature in a background thread.
+        - Use a `std::mutex` to ensure safe access to the images list.
+
+    - Manage thread completion:
+        - In the main program loop, check if sorting is complete.
+        - Display images in sorted order once sorting is done.
+        - Unlock the images list after sorting completes.
+
+4. Implement Event Handling for User Interaction:
+    - Handle left/right arrow key presses:
+        - Change the currently displayed image based on key press (left or right).
+        - Update the window title with the current image file name.
+
+    - Handle window resizing:
+        - Adjust image scale to fit the new window size as it resizes.
+
+5. Measure Performance for Report:
+    - Add timing functions around the sorting process to measure duration:
+        - Use `std::chrono` to record time before and after sorting.
+        - Store and display timing results for performance analysis.
+
+    - Experiment with different sorting or multithreading techniques, if applicable.
+    - Record any improvements in sorting time for reporting.
+
+6. Write Report:
+    - Analysis Section:
+        - Explain the image sorting process.
+        - Describe concurrency techniques used, and the rationale behind them.
+
+    - Methodology and Results:
+        - Present timing and performance metrics from the multithreaded sorting.
+        - Include graphs or tables to compare single-threaded vs. multi-threaded performance, if possible.
+
+7. Refactor Code (Optional, After Testing):
+    - Move image loading and sorting functions into dedicated files:
+        - Create "ImageLoader.h/.cpp" and "ImageSorter.h/.cpp" for specific functionality.
+        - Create "Utils.h/.cpp" for helper functions like color temperature calculations.
+    - Update `main.cpp` to use these modular components for a clean, organized structure.
+
+=====================================
+*/
+
+
+
+
+
 namespace fs = std::filesystem;
 
 // Helper structure for RGBA pixels (a is safe to ignore for this coursework)
