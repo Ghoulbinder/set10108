@@ -8,9 +8,11 @@
 #include <algorithm>
 #include <iostream>
 #include <mutex>
+#include <chrono>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+
 
 
 
@@ -73,11 +75,11 @@ double rgbToColorTemperature(rgba_t rgba) {
     return std::isnan(CCT) ? 6500 : CCT;  // If CCT is NaN, return a default neutral temperature
 }
 
-// Calculate the median temperature of an image
-double calculate_median_temperature(const std::string& filename) {
+// Calculate the median temperature of an image(rounded to nearest whole number)
+int calculate_median_temperature(const std::string& filename) {
     int width, height;
     auto rgbadata = load_rgb(filename.c_str(), width, height);
-    if (rgbadata.empty()) return 0.0;
+    if (rgbadata.empty()) return 0;
 
     std::vector<double> temperatures;
     for (const auto& pixel : rgbadata) {
@@ -86,13 +88,15 @@ double calculate_median_temperature(const std::string& filename) {
     std::sort(temperatures.begin(), temperatures.end());
 
     size_t size = temperatures.size();
-    return (size % 2 == 0) ? (temperatures[size / 2 - 1] + temperatures[size / 2]) / 2.0 : temperatures[size / 2];
+    double median = (size % 2 == 0) ? (temperatures[size / 2 - 1] + temperatures[size / 2]) / 2.0 : temperatures[size / 2];
+
+    // Round the median to the nearest whole number
+    return static_cast<int>(std::round(median));
 }
 
 // Multi-threaded sorting based on color temperature
 void threaded_sort(std::vector<std::string>& filenames) {
-    std::vector<std::future<double>> futures;
-    std::mutex mutex;
+    std::vector<std::future<int>> futures;
 
     // Launch asynchronous tasks to calculate temperatures
     for (const auto& filename : filenames) {
@@ -100,9 +104,9 @@ void threaded_sort(std::vector<std::string>& filenames) {
     }
 
     // Collect temperatures and associate them with filenames
-    std::vector<std::pair<std::string, double>> temp_pairs;
+    std::vector<std::pair<std::string, int>> temp_pairs;
     for (size_t i = 0; i < filenames.size(); ++i) {
-        double temp = futures[i].get();
+        int temp = futures[i].get();
         temp_pairs.emplace_back(filenames[i], temp);
     }
 
@@ -160,11 +164,20 @@ int main()
     for (auto& p : fs::directory_iterator(image_folder))
         imageFilenames.push_back(p.path().u8string());
 
+    // Measure sorting time
+    auto start_time = std::chrono::high_resolution_clock::now(); // Start timer
+
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
     //  YOUR CODE HERE INSTEAD, TO ORDER THE IMAGES IN A MULTI-THREADED MANNER WITHOUT BLOCKING  //
     ///////////////////////////////////////////////////////////////////////////////////////////////
      // Sort images by temperature in a multi-threaded manner
     threaded_sort(imageFilenames);
+
+    // End timer
+    auto end_time = std::chrono::high_resolution_clock::now(); 
+    std::chrono::duration<double> duration = end_time - start_time;
+    std::cout << "Sorting completed in " << duration.count() << " seconds.\n";
 
     // Confirm sorting by printing
     for (const auto& filename : imageFilenames) {
