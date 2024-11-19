@@ -63,20 +63,31 @@ double rgbToColorTemperature(rgba_t rgba) {
     // Calculate chromaticity coordinates, check for zero division
     double sum = X + Y + Z;
     if (sum == 0) {
-        return 6500;  // Default temperature, assume neutral if data is missing
+        return 6500;  // Default temperature for neutral or missing data
     }
     double x = X / sum;
     double y = Y / sum;
 
-    // Approximate color temperature using McCamy's formula
-    double n = (x - 0.3320) / (0.1858 - y);
-    double CCT = 449.0 * n * n * n + 3525.0 * n * n + 6823.3 * n + 5520.33;
+    // Improved color temperature estimation using McCamy's formula
+    //double n = (x - 0.332) / (y - 0.1858);
+    //double CCT = 449.0 * n * n * n + 3525.0 * n * n + 6823.3 * n + 5520.33;
 
-    return std::isnan(CCT) ? 6500 : CCT;  // If CCT is NaN, return a default neutral temperature
+    // Empirical formula for color temperature estimation (Judd modified by CIE)
+    double n = (x - 0.3366) / (y - 0.1735);
+    double CCT = -949.86315 + 6253.80338 * exp(-n / 0.92159) + 28.70599 * exp(-n / 0.20039) +
+        0.00004 * exp(-n / 0.07125);
+
+   // Clamp temperature to a realistic range (e.g., 1000K to 10000K or 40000K for extended cases)
+   //if (std::isnan(CCT) || CCT < 1000) {
+   //    CCT = 1000;
+   //}
+   //else if (CCT > 10000) {  // Optionally, use 40000K for more extreme cases
+   //    CCT = 10000;
+   //}
+    return CCT;
 }
 
-// Calculate the median temperature of an image(rounded to nearest whole number)
-int calculate_median_temperature(const std::string& filename) {
+double calculate_median_temperature(const std::string& filename) {
     int width, height;
     auto rgbadata = load_rgb(filename.c_str(), width, height);
     if (rgbadata.empty()) return 0;
@@ -85,28 +96,29 @@ int calculate_median_temperature(const std::string& filename) {
     for (const auto& pixel : rgbadata) {
         temperatures.push_back(rgbToColorTemperature(pixel));
     }
-    std::sort(temperatures.begin(), temperatures.end());
 
+    // Sort and find median
+    std::sort(temperatures.begin(), temperatures.end());
     size_t size = temperatures.size();
     double median = (size % 2 == 0) ? (temperatures[size / 2 - 1] + temperatures[size / 2]) / 2.0 : temperatures[size / 2];
-
-    // Round the median to the nearest whole number
-    return static_cast<int>(std::round(median));
+    return median;
 }
+
+
 
 // Multi-threaded sorting based on color temperature
 void threaded_sort(std::vector<std::string>& filenames) {
-    std::vector<std::future<int>> futures;
+    std::vector<std::future<double>> futures;
 
-    // Launch asynchronous tasks to calculate temperatures
+    // Launch asynchronous tasks to calculate median temperatures for better stability
     for (const auto& filename : filenames) {
         futures.emplace_back(std::async(std::launch::async, calculate_median_temperature, filename));
     }
 
     // Collect temperatures and associate them with filenames
-    std::vector<std::pair<std::string, int>> temp_pairs;
+    std::vector<std::pair<std::string, double>> temp_pairs;
     for (size_t i = 0; i < filenames.size(); ++i) {
-        int temp = futures[i].get();
+        double temp = futures[i].get();
         temp_pairs.emplace_back(filenames[i], temp);
     }
 
@@ -121,25 +133,23 @@ void threaded_sort(std::vector<std::string>& filenames) {
     }
 }
 
-/*/ Calculate the median from an image filename
-double filename_to_median(const std::string& filename)
-{
+std::pair<double, double> calculate_temperature_range(const std::string& filename) {
     int width, height;
     auto rgbadata = load_rgb(filename.c_str(), width, height);
-    std::vector<double> temperatures;
-    std::transform(rgbadata.begin(), rgbadata.end(), std::back_inserter(temperatures), rgbToColorTemperature);
-    std::sort(temperatures.begin(), temperatures.end());
-    auto median = temperatures.size() % 2 ? 0.5 * (temperatures[temperatures.size() / 2 - 1] + temperatures[temperatures.size() / 2]) : temperatures[temperatures.size() / 2];
-    return median;
+    if (rgbadata.empty()) return { 0, 0 };
+
+    double min_temp = std::numeric_limits<double>::max();
+    double max_temp = std::numeric_limits<double>::lowest();
+
+    for (const auto& pixel : rgbadata) {
+        double temp = rgbToColorTemperature(pixel);
+        if (temp < min_temp) min_temp = temp;
+        if (temp > max_temp) max_temp = temp;
+    }
+
+    return { min_temp, max_temp };
 }
 
-// Static sort -- REFERENCE ONLY
-void static_sort(std::vector<std::string>& filenames)
-{
-    std::sort(filenames.begin(), filenames.end(), [](const std::string& lhs, const std::string& rhs) {
-        return filename_to_median(lhs) < filename_to_median(rhs);
-    });
-}*/
 
 sf::Vector2f SpriteScaleFromDimensions(const sf::Vector2u& textureSize, int screenWidth, int screenHeight)
 {
@@ -179,11 +189,16 @@ int main()
     std::chrono::duration<double> duration = end_time - start_time;
     std::cout << "Sorting completed in " << duration.count() << " seconds.\n";
 
-    // Confirm sorting by printing
+    //// Confirm sorting by printing
+    //for (const auto& filename : imageFilenames) {
+    //    double temp = calculate_median_temperature(filename);
+    //    std::cout << "Image: " << filename << " - Temperature: " << temp << "K\n";
+    //}
     for (const auto& filename : imageFilenames) {
-        double temp = calculate_median_temperature(filename);
-        std::cout << "Image: " << filename << " - Temperature: " << temp << "K\n";
+        auto [min_temp, max_temp] = calculate_temperature_range(filename);
+        std::cout << "Image: " << filename << " - Temperature Range: " << min_temp << "K to " << max_temp << "K\n";
     }
+
 
     // Define some constants
     const int gameWidth = 800;
