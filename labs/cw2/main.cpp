@@ -13,7 +13,16 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+/*
+-------------------------------TO DO LIST---------------------------------------------
+        possible async for sorting can be done manually
+        look into mccamys formual and judds formala for temp calculations
+        current temp ranges can me improved
 
+
+
+
+*/
 
 
 namespace fs = std::filesystem;
