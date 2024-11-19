@@ -1,0 +1,13 @@
+double filename_to_median(const std::string& filename) {
+    int width, height;
+    auto rgbadata = load_rgb(filename.c_str(), width, height);
+    std::vector<double> temperatures;
+    std::transform(rgbadata.begin(), rgbadata.end(), std::back_inserter(temperatures), rgbToColorTemperature);
+    std::sort(temperatures.begin(), temperatures.end());
+    auto median = temperatures.size() % 2 ? 0.5 * (temperatures[temperatures.size() / 2 - 1] + temperatures[temperatures.size() / 2]) : temperatures[temperatures.size() / 2];
+    return median;
+	
+	
+	
+	
+	

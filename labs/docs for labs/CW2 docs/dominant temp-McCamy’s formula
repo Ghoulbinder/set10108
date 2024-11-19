@@ -294,3 +294,20 @@ int main() {
 
     return EXIT_SUCCESS;
 }
+
+/mnt/data/sorted_images_temperature/551132K_landscape-mountains-nature-lake-1.jpg',
+ '/mnt/data/sorted_images_temperature/442554K_rocks-forest-trees-nature.jpg',
+ '/mnt/data/sorted_images_temperature/8463K_beach-hut-at-seaside.jpg',
+ '/mnt/data/sorted_images_temperature/8029K_sea-landscape-mountains-nature-1.jpg',
+ '/mnt/data/sorted_images_temperature/7841K_fog-in-forest-1.jpg',
+ '/mnt/data/sorted_images_temperature/6976K_landscape-with-forest-and-mountains-1.jpg',
+ '/mnt/data/sorted_images_temperature/6475K_landscape-nature-lake-reflections.jpg',
+ '/mnt/data/sorted_images_temperature/5298K_sunset-over-mountains.jpg',
+ '/mnt/data/sorted_images_temperature/5078K_travel-morocco-erfoud-sand-dune-desert-sand.jpg',
+ '/mnt/data/sorted_images_temperature/4872K_landscape-with-cottages-in-field.jpg',
+ '/mnt/data/sorted_images_temperature/2853K_sky-birds-cloud-orange-nature-view-silhouette.jpg',
+ '/mnt/data/sorted_images_temperature/-27996K_sunset-over-lake-with-reflections.jpg',
+ '/mnt/data/sorted_images_temperature/-55482K_sunbeams-in-clouds-over-sea.jpg',
+ '/mnt/data/sorted_images_temperature/-1068469K_fiji-beach-sand-palm-trees-tropics-sky-clouds.jpg',
+ '/mnt/data/sorted_images_temperature/-58086416K_cold-snow-nature-forest-1.jpg',
+ '/mnt/data/sorted_images_temperature/-233136963K_nature-sunset-dark-sun-1.jpg']
