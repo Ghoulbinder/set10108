@@ -37,7 +37,7 @@
 2. Implement Image Sorting by Color Temperature:
     - Define color temperature calculation:
         - Create a function to calculate color temperature for an image.
-        - Load RGB data, convert RGB to color temperature using McCamy’s formula.
+        - Load RGB data, convert RGB to color temperature using McCamyâ€™s formula.
         - Return color temperature.
 
     - Sort images based on color temperature:
@@ -116,33 +116,30 @@ std::vector<rgba_t> load_rgb(const char* filename, int& width, int& height) {
 }
 
 // Conversion to color temperature
-double daylightApproximationColorTemperature(rgba_t rgba) {
-    // Step 1: Normalize RGB values to the range [0, 1]
+double rgbToColorTemperature(rgba_t rgba) {
+    // Normalize RGB values to [0, 1]
     double red = rgba.r / 255.0;
     double green = rgba.g / 255.0;
     double blue = rgba.b / 255.0;
 
-    // Step 2: Apply gamma correction to RGB values
+    // Apply gamma correction
     red = (red > 0.04045) ? pow((red + 0.055) / 1.055, 2.4) : (red / 12.92);
     green = (green > 0.04045) ? pow((green + 0.055) / 1.055, 2.4) : (green / 12.92);
     blue = (blue > 0.04045) ? pow((blue + 0.055) / 1.055, 2.4) : (blue / 12.92);
 
-    // Step 3: Convert to XYZ color space
+    // Convert to XYZ color space
     double X = red * 0.4124 + green * 0.3576 + blue * 0.1805;
     double Y = red * 0.2126 + green * 0.7152 + blue * 0.0722;
     double Z = red * 0.0193 + green * 0.1192 + blue * 0.9505;
 
-    // Step 4: Calculate chromaticity coordinates x and y
+    // Calculate chromaticity coordinates and color temperature
     double x = X / (X + Y + Z);
     double y = Y / (X + Y + Z);
-
-    // Step 5: Approximate CCT using Daylight Chromaticity Approximation (CIE Method)
-    double n = (x - 0.332) / (y - 0.1858);
-    double CCT = 437 * n * n * n + 3601 * n * n + 6861 * n + 5517;
+    double n = (x - 0.3320) / (0.1858 - y);
+    double CCT = 449.0 * n * n * n + 3525.0 * n * n + 6823.3 * n + 5520.33;
 
     return CCT;
 }
-
 
 // Calculate dominant color temperature for an image
 double filename_to_dominant_temperature(const std::string& filename) {
@@ -153,7 +150,7 @@ double filename_to_dominant_temperature(const std::string& filename) {
     int coolPixels = 0;
 
     for (const auto& pixel : rgbadata) {
-        double temperature = daylightApproximationColorTemperature(pixel);
+        double temperature = rgbToColorTemperature(pixel);
         if (temperature >= 5000.0) {  // Arbitrary warm threshold (5000K)
             warmPixels++;
         }
@@ -162,10 +159,13 @@ double filename_to_dominant_temperature(const std::string& filename) {
         }
     }
 
+    // Calculate dominant temperature as the percentage of warm pixels
     double warmRatio = static_cast<double>(warmPixels) / rgbadata.size();
+
+    // Return a higher value for warmer images and lower for cooler
+    // This will produce values between 0 and 1, with 1 being the warmest
     return warmRatio;
 }
-
 
 
 
