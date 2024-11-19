@@ -166,28 +166,49 @@ double filename_to_dominant_temperature(const std::string& filename) {
     return warmRatio;
 }
 
+double filename_to_average_temperature(const std::string& filename) {
+    int width, height;
+    auto rgbadata = load_rgb(filename.c_str(), width, height);
+
+    double totalTemperature = 0.0;
+    for (const auto& pixel : rgbadata) {
+        totalTemperature += daylightApproximationColorTemperature(pixel);
+    }
+
+    return rgbadata.empty() ? 0.0 : totalTemperature / rgbadata.size();
+}
+
+double combined_temperature_score(const std::string& filename) {
+    // Calculate both metrics
+    double avgTemperature = filename_to_average_temperature(filename);
+    double dominantRatio = filename_to_dominant_temperature(filename);
+
+    // Weighting factors (adjust these as necessary for best results)
+    const double avgWeight = 0.6;
+    const double dominantWeight = 0.4;
+
+    // Return a combined score
+    return (avgWeight * avgTemperature) + (dominantWeight * (dominantRatio * 10000)); // Scale ratio to balance with avg
+}
 
 
-
-// Static sort (descending order by dominant temperature)
 void static_sort(std::vector<std::string>& filenames) {
     std::sort(filenames.begin(), filenames.end(), [](const std::string& lhs, const std::string& rhs) {
-        return filename_to_dominant_temperature(lhs) > filename_to_dominant_temperature(rhs);
+        return combined_temperature_score(lhs) > combined_temperature_score(rhs);  // Sort by combined score
         });
 }
 
-// Multi-threaded sorting function with timing measurement (descending order by dominant temperature)
 void threaded_sort(std::vector<std::string>& filenames) {
-    auto start = std::chrono::high_resolution_clock::now();  // Start timing
+    auto start = std::chrono::high_resolution_clock::now();
 
     {
         std::lock_guard<std::mutex> lock(filenames_mutex);
         std::sort(filenames.begin(), filenames.end(), [](const std::string& lhs, const std::string& rhs) {
-            return filename_to_dominant_temperature(lhs) > filename_to_dominant_temperature(rhs);
+            return combined_temperature_score(lhs) > combined_temperature_score(rhs);  // Sort by combined score
             });
     }
 
-    auto end = std::chrono::high_resolution_clock::now();  // End timing
+    auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
     std::cout << "Sorting took " << elapsed.count() << " seconds\n";
 }
