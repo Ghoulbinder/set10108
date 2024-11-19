@@ -16,6 +16,9 @@
 #include <future>  // For std::async and std::future
 #include <mutex>   // For std::mutex
 #include <chrono>    // For performance measurement
+#include <execution>  // Include for parallel execution policies
+#include <map>
+
 
 
 
@@ -98,7 +101,7 @@ namespace fs = std::filesystem;
 struct rgba_t {
     uint8_t r;
     uint8_t g;
-    uint8_t b;   
+    uint8_t b;
 };
 
 // Mutex for protecting shared access to image filenames
@@ -143,7 +146,6 @@ double daylightApproximationColorTemperature(rgba_t rgba) {
     return CCT;
 }
 
-
 // Calculate dominant color temperature for an image
 double filename_to_dominant_temperature(const std::string& filename) {
     int width, height;
@@ -165,6 +167,33 @@ double filename_to_dominant_temperature(const std::string& filename) {
     double warmRatio = static_cast<double>(warmPixels) / rgbadata.size();
     return warmRatio;
 }
+// Function to calculate a histogram-based warmth score
+double calculateHistogramWarmthScore(const std::string& filename) {
+    int width, height;
+    auto rgbadata = load_rgb(filename.c_str(), width, height);
+
+    // Initialize bins (adjust these thresholds as needed)
+    const double warmThreshold1 = 3000;
+    const double warmThreshold2 = 5000;
+    const double coolThreshold1 = 7000;
+
+    int warmCount = 0;
+    int neutralCount = 0;
+    int coolCount = 0;
+
+    // Bin pixels into warm, neutral, and cool based on temperature
+    for (const auto& pixel : rgbadata) {
+        double temp = daylightApproximationColorTemperature(pixel);
+
+        if (temp < warmThreshold1) warmCount++;
+        else if (temp >= warmThreshold1 && temp <= coolThreshold1) neutralCount++;
+        else coolCount++;
+    }
+
+    // Calculate a weighted warmth score (adjust weights as needed)
+    double warmthScore = (warmCount * 1.0) + (neutralCount * 0.5) - (coolCount * 0.2);
+    return warmthScore;
+}
 
 double filename_to_average_temperature(const std::string& filename) {
     int width, height;
@@ -178,7 +207,7 @@ double filename_to_average_temperature(const std::string& filename) {
     return rgbadata.empty() ? 0.0 : totalTemperature / rgbadata.size();
 }
 
-double combined_temperature_score(const std::string& filename) {
+/*double combined_temperature_score(const std::string& filename) {
     // Calculate both metrics
     double avgTemperature = filename_to_average_temperature(filename);
     double dominantRatio = filename_to_dominant_temperature(filename);
@@ -189,30 +218,46 @@ double combined_temperature_score(const std::string& filename) {
 
     // Return a combined score
     return (avgWeight * avgTemperature) + (dominantWeight * (dominantRatio * 10000)); // Scale ratio to balance with avg
-}
+}*/
 
-
+/*// Static sort (descending order by combined temperature score)
 void static_sort(std::vector<std::string>& filenames) {
     std::sort(filenames.begin(), filenames.end(), [](const std::string& lhs, const std::string& rhs) {
         return combined_temperature_score(lhs) > combined_temperature_score(rhs);  // Sort by combined score
         });
-}
+}*/
 
-void threaded_sort(std::vector<std::string>& filenames) {
+// Use histogram - based warmth score sorting function
+void threaded_sort(std::vector<std::string>&filenames) {
     auto start = std::chrono::high_resolution_clock::now();
 
     {
         std::lock_guard<std::mutex> lock(filenames_mutex);
-        std::sort(filenames.begin(), filenames.end(), [](const std::string& lhs, const std::string& rhs) {
-            return combined_temperature_score(lhs) > combined_temperature_score(rhs);  // Sort by combined score
+        std::sort(std::execution::par, filenames.begin(), filenames.end(), [](const std::string& lhs, const std::string& rhs) {
+            return calculateHistogramWarmthScore(lhs) > calculateHistogramWarmthScore(rhs);
             });
     }
 
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
-    std::cout << "Sorting took " << elapsed.count() << " seconds\n";
+    std::cout << "Histogram-based sorting took " << elapsed.count() << " seconds\n";
 }
+// Parallelized sorting function with timing measurement (descending order by combined temperature score)
+/*void threaded_sort(std::vector<std::string>& filenames) {
+    auto start = std::chrono::high_resolution_clock::now();  // Start timing
 
+    {
+        std::lock_guard<std::mutex> lock(filenames_mutex);
+        // Parallel sort using std::execution::par for parallel execution
+        std::sort(std::execution::par, filenames.begin(), filenames.end(), [](const std::string& lhs, const std::string& rhs) {
+            return combined_temperature_score(lhs) > combined_temperature_score(rhs);
+            });
+    }
+
+    auto end = std::chrono::high_resolution_clock::now();  // End timing
+    std::chrono::duration<double> elapsed = end - start;
+    std::cout << "Sorting took " << elapsed.count() << " seconds\n";
+}*/
 
 // Calculate sprite scale for the image to fit within window
 sf::Vector2f SpriteScaleFromDimensions(const sf::Vector2u& textureSize, int screenWidth, int screenHeight) {
