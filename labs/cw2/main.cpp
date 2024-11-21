@@ -187,7 +187,7 @@ int main()
     auto start_time = std::chrono::high_resolution_clock::now(); // Start timer
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////// 
     //  YOUR CODE HERE INSTEAD, TO ORDER THE IMAGES IN A MULTI-THREADED MANNER WITHOUT BLOCKING  //
     ///////////////////////////////////////////////////////////////////////////////////////////////
      // Sort images by temperature in a multi-threaded manner
@@ -204,8 +204,8 @@ int main()
     //    std::cout << "Image: " << filename << " - Temperature: " << temp << "K\n";
     //}
     for (const auto& filename : imageFilenames) {
-        auto [min_temp, max_temp] = calculate_temperature_range(filename);
-        std::cout << "Image: " << filename << " - Temperature Range: " << min_temp << "K to " << max_temp << "K\n";
+        double assigned_temp = calculate_median_temperature(filename); // Assigned temp (median)
+        std::cout << "Image: " << filename << " - Assigned Temperature: " << assigned_temp << "K\n";
     }
 
 
