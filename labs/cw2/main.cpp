@@ -1,14 +1,20 @@
-#include <SFML/Graphics.hpp>
-#include <cmath>
-#include <ctime>
-#include <cstdlib>
-#include <filesystem>
-#include <future>
-#include <vector>
-#include <algorithm>
-#include <iostream>
-#include <mutex>
-#include <chrono>
+#include <SFML/Graphics.hpp>        // For graphics rendering
+#include <cmath>                   // For mathematical operations
+#include <ctime>                   // For time-based operations
+#include <cstdlib>                 // For general utilities
+#include <filesystem>              // For filesystem operations
+#include <future>                  // For asynchronous operations and std::future
+#include <vector>                  // For std::vector container
+#include <algorithm>               // For sorting and algorithms
+#include <iostream>                // For input/output streams
+#include <mutex>                   // For std::mutex and std::lock_guard
+#include <chrono>                  // For measuring time
+#include <thread>                  // For std::thread
+#include <queue>                   // For std::queue container
+#include <functional>              // For std::function
+#include <condition_variable>      // For std::condition_variable
+#include <execution>               // For parallel STL (optional, depending on use)
+#include <limits>                  // For numeric limits like `std::numeric_limits`
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
@@ -81,7 +87,12 @@ double rgbToColorTemperature(rgba_t rgba) {
     double n = (x - 0.332) / (y - 0.1858);
     double CCT = 449.0 * n * n * n + 3525.0 * n * n + 6823.3 * n + 5520.33;
 
+    // Empirical formula for color temperature estimation (Judd modified by CIE)
+    //double n = (x - 0.3366) / (y - 0.1735);
+    //double CCT = -949.86315 + 6253.80338 * exp(-n / 0.92159) + 28.70599 * exp(-n / 0.20039) +
+    //    0.00004 * exp(-n / 0.07125);
 
+   
     return CCT;
 }
 
@@ -122,7 +133,7 @@ void threaded_sort(std::vector<std::string>& filenames) {
 
     // Sort filenames based on temperature
     std::sort(temp_pairs.begin(), temp_pairs.end(), [](const auto& lhs, const auto& rhs) {
-        return lhs.second > rhs.second; // Sort in descending order
+        return lhs.second > rhs.second; //decending order
         });
 
     // Reorder filenames according to sorted temperatures
@@ -176,7 +187,9 @@ int main()
     auto start_time = std::chrono::high_resolution_clock::now(); // Start timer
 
 
- 
+    /////////////////////////////////////////////////////////////////////////////////////////////// 
+    //  YOUR CODE HERE INSTEAD, TO ORDER THE IMAGES IN A MULTI-THREADED MANNER WITHOUT BLOCKING  //
+    ///////////////////////////////////////////////////////////////////////////////////////////////
      // Sort images by temperature in a multi-threaded manner
     threaded_sort(imageFilenames);
 
@@ -185,7 +198,11 @@ int main()
     std::chrono::duration<double> duration = end_time - start_time;
     std::cout << "Sorting completed in " << duration.count() << " seconds.\n";
 
-   
+    //// Confirm sorting by printing
+    //for (const auto& filename : imageFilenames) {
+    //    double temp = calculate_median_temperature(filename);
+    //    std::cout << "Image: " << filename << " - Temperature: " << temp << "K\n";
+    //}
     for (const auto& filename : imageFilenames) {
         double assigned_temp = calculate_median_temperature(filename); // Assigned temp (median)
         std::cout << "Image: " << filename << " - Assigned Temperature: " << assigned_temp << "K\n";
