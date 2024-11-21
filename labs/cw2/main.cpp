@@ -122,7 +122,7 @@ void threaded_sort(std::vector<std::string>& filenames) {
 
     // Sort filenames based on temperature
     std::sort(temp_pairs.begin(), temp_pairs.end(), [](const auto& lhs, const auto& rhs) {
-        return lhs.second < rhs.second;
+        return lhs.second > rhs.second; // Sort in descending order
         });
 
     // Reorder filenames according to sorted temperatures
@@ -176,9 +176,7 @@ int main()
     auto start_time = std::chrono::high_resolution_clock::now(); // Start timer
 
 
-    /////////////////////////////////////////////////////////////////////////////////////////////// 
-    //  YOUR CODE HERE INSTEAD, TO ORDER THE IMAGES IN A MULTI-THREADED MANNER WITHOUT BLOCKING  //
-    ///////////////////////////////////////////////////////////////////////////////////////////////
+ 
      // Sort images by temperature in a multi-threaded manner
     threaded_sort(imageFilenames);
 
