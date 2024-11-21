@@ -37,7 +37,7 @@ struct rgba_t
 };
 
 // Helper function to load RGB data from a file, as a contiguous array (row-major) of RGB triplets, where each of R,G,B is a uint8_t and ranges from 0 to 255
-std::vector<rgba_t> load_rgb(const char * filename, int& width, int& height)
+std::vector<rgba_t> load_rgb(const char* filename, int& width, int& height)
 {
     int n;
     unsigned char* data = stbi_load(filename, &width, &height, &n, 4);
@@ -47,7 +47,7 @@ std::vector<rgba_t> load_rgb(const char * filename, int& width, int& height)
     }
     const rgba_t* rgbadata = (rgba_t*)(data);
     std::vector<rgba_t> vec;
-    vec.assign(rgbadata, rgbadata +width*height);
+    vec.assign(rgbadata, rgbadata + width * height);
     stbi_image_free(data);
     return vec;
 }
@@ -78,21 +78,10 @@ double rgbToColorTemperature(rgba_t rgba) {
     double y = Y / sum;
 
     // Improved color temperature estimation using McCamy's formula
-    //double n = (x - 0.332) / (y - 0.1858);
-    //double CCT = 449.0 * n * n * n + 3525.0 * n * n + 6823.3 * n + 5520.33;
+    double n = (x - 0.332) / (y - 0.1858);
+    double CCT = 449.0 * n * n * n + 3525.0 * n * n + 6823.3 * n + 5520.33;
 
-    // Empirical formula for color temperature estimation (Judd modified by CIE)
-    double n = (x - 0.3366) / (y - 0.1735);
-    double CCT = -949.86315 + 6253.80338 * exp(-n / 0.92159) + 28.70599 * exp(-n / 0.20039) +
-        0.00004 * exp(-n / 0.07125);
 
-   // Clamp temperature to a realistic range (e.g., 1000K to 10000K or 40000K for extended cases)
-   //if (std::isnan(CCT) || CCT < 1000) {
-   //    CCT = 1000;
-   //}
-   //else if (CCT > 10000) {  // Optionally, use 40000K for more extreme cases
-   //    CCT = 10000;
-   //}
     return CCT;
 }
 
@@ -194,15 +183,11 @@ int main()
     threaded_sort(imageFilenames);
 
     // End timer
-    auto end_time = std::chrono::high_resolution_clock::now(); 
+    auto end_time = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end_time - start_time;
     std::cout << "Sorting completed in " << duration.count() << " seconds.\n";
 
-    //// Confirm sorting by printing
-    //for (const auto& filename : imageFilenames) {
-    //    double temp = calculate_median_temperature(filename);
-    //    std::cout << "Image: " << filename << " - Temperature: " << temp << "K\n";
-    //}
+   
     for (const auto& filename : imageFilenames) {
         double assigned_temp = calculate_median_temperature(filename); // Assigned temp (median)
         std::cout << "Image: " << filename << " - Assigned Temperature: " << assigned_temp << "K\n";
@@ -217,16 +202,16 @@ int main()
 
     // Create the window of the application
     sf::RenderWindow window(sf::VideoMode(gameWidth, gameHeight, 32), "Image Fever",
-                            sf::Style::Titlebar | sf::Style::Close);
+        sf::Style::Titlebar | sf::Style::Close);
     window.setVerticalSyncEnabled(true);
 
     // Load an image to begin with
     sf::Texture texture;
     if (!texture.loadFromFile(imageFilenames[imageIndex]))
         return EXIT_FAILURE;
-    sf::Sprite sprite (texture);
+    sf::Sprite sprite(texture);
     // Make sure the texture fits the screen
-    sprite.setScale(SpriteScaleFromDimensions(texture.getSize(),gameWidth,gameHeight));
+    sprite.setScale(SpriteScaleFromDimensions(texture.getSize(), gameWidth, gameHeight));
 
     sf::Clock clock;
     while (window.isOpen())
@@ -237,18 +222,18 @@ int main()
         {
             // Window closed or escape key pressed: exit
             if ((event.type == sf::Event::Closed) ||
-               ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape)))
+                ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::Escape)))
             {
                 window.close();
                 break;
             }
-            
+
             // Window size changed, adjust view appropriately
             if (event.type == sf::Event::Resized)
             {
                 sf::View view;
                 view.setSize(gameWidth, gameHeight);
-                view.setCenter(gameWidth/2.f, gameHeight/2.f);
+                view.setCenter(gameWidth / 2.f, gameHeight / 2.f);
                 window.setView(view);
             }
 
