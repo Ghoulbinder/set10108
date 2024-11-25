@@ -115,23 +115,29 @@ double rgbToColorTemperature(rgba_t rgba) {
 //}
 
 double calculate_median_temperature(const std::string& filename) {
-    int width, height;
+    //Load the RGB data from the file
+    int width, height; 
     auto rgbadata = load_rgb(filename.c_str(), width, height);
     if (rgbadata.empty()) return 0;
+    //Prepare a container for temperatures
+    std::vector<double> temperatures(rgbadata.size()); // Create a vector to store temperature values
 
-    std::vector<double> temperatures(rgbadata.size());
 
-    // Parallel processing with std::async
-    const size_t numThreads = std::thread::hardware_concurrency();
-    std::vector<std::future<void>> futures;
-    size_t chunkSize = rgbadata.size() / numThreads;
+    // Determine the number of threads for parallel processing
+    const size_t numThreads = std::thread::hardware_concurrency();// Number of threads based on hardware
+    std::vector<std::future<void>> futures;// To store async tasks
+    size_t chunkSize = rgbadata.size() / numThreads; // Divide work into chunks for each thread
 
+    //Distribute the work across threads
     for (size_t t = 0; t < numThreads; ++t) {
-        size_t startIdx = t * chunkSize;
+        size_t startIdx = t * chunkSize;// Start index for this thread
         size_t endIdx = (t == numThreads - 1) ? rgbadata.size() : (t + 1) * chunkSize;
 
+        // Launch an asynchronous task for processing a chunk of pixels
         futures.emplace_back(std::async(std::launch::async, [startIdx, endIdx, &rgbadata, &temperatures]() {
+            // For each pixel in the assigned range
             for (size_t i = startIdx; i < endIdx; ++i) {
+                // Convert the pixel's RGB data to color temperature and store it
                 temperatures[i] = rgbToColorTemperature(rgbadata[i]);
             }
             }));
@@ -139,18 +145,21 @@ double calculate_median_temperature(const std::string& filename) {
 
     // Wait for all threads to finish
     for (auto& fut : futures) {
-        fut.get();
+        fut.get();// Wait for each async task to complete
     }
 
     // Sort and calculate median
     std::nth_element(temperatures.begin(), temperatures.begin() + temperatures.size() / 2, temperatures.end());
-    size_t mid = temperatures.size() / 2;
+    size_t mid = temperatures.size() / 2; // Find the middle index
+
+    // If the size is even, calculate the average of the two middle values
     if (temperatures.size() % 2 == 0) {
         double lower = *std::max_element(temperatures.begin(), temperatures.begin() + mid);
         double upper = temperatures[mid];
         return (lower + upper) / 2.0;
     }
     else {
+        // If the size is odd, return the middle value
         return temperatures[mid];
     }
 }
@@ -251,7 +260,7 @@ int main()
     std::srand(static_cast<unsigned int>(std::time(NULL)));
 
     // example folder to load images
-    const char* image_folder = "C:/set10108-cw/set10108/labs/cw2/images/unsorted";
+    const char* image_folder = "C:/set10108-cw/set10108/labs/cw2/images/unsorted 2";
     if (!fs::is_directory(image_folder))
     {
         printf("Directory \"%s\" not found: please make sure it exists, and if it's a relative path, it's under your WORKING directory\n", image_folder);
@@ -264,10 +273,6 @@ int main()
     // Measure sorting time
     auto start_time = std::chrono::high_resolution_clock::now(); // Start timer
 
-
-    /////////////////////////////////////////////////////////////////////////////////////////////// 
-    //  YOUR CODE HERE INSTEAD, TO ORDER THE IMAGES IN A MULTI-THREADED MANNER WITHOUT BLOCKING  //
-    ///////////////////////////////////////////////////////////////////////////////////////////////
      // Sort images by temperature in a multi-threaded manner
     threaded_sort(imageFilenames);
 
