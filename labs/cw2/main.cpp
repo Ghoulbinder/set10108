@@ -15,6 +15,7 @@
 #include <condition_variable>      // For std::condition_variable
 #include <execution>               // For parallel STL (optional, depending on use)
 #include <limits>                  // For numeric limits like std::numeric_limits
+#include <numeric>                 // For std::iota
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
@@ -96,50 +97,127 @@ double rgbToColorTemperature(rgba_t rgba) {
     return CCT;
 }
 
+//double calculate_median_temperature(const std::string& filename) {
+//    int width, height;
+//    auto rgbadata = load_rgb(filename.c_str(), width, height);
+//    if (rgbadata.empty()) return 0;
+//
+//    std::vector<double> temperatures;
+//    for (const auto& pixel : rgbadata) {
+//        temperatures.push_back(rgbToColorTemperature(pixel));
+//    }
+//
+//    // Sort and find median
+//    std::sort(temperatures.begin(), temperatures.end());
+//    size_t size = temperatures.size();
+//    double median = (size % 2 == 0) ? (temperatures[size / 2 - 1] + temperatures[size / 2]) / 2.0 : temperatures[size / 2];
+//    return median;
+//}
+
 double calculate_median_temperature(const std::string& filename) {
     int width, height;
     auto rgbadata = load_rgb(filename.c_str(), width, height);
     if (rgbadata.empty()) return 0;
 
-    std::vector<double> temperatures;
-    for (const auto& pixel : rgbadata) {
-        temperatures.push_back(rgbToColorTemperature(pixel));
+    std::vector<double> temperatures(rgbadata.size());
+
+    // Parallel processing with std::async
+    const size_t numThreads = std::thread::hardware_concurrency();
+    std::vector<std::future<void>> futures;
+    size_t chunkSize = rgbadata.size() / numThreads;
+
+    for (size_t t = 0; t < numThreads; ++t) {
+        size_t startIdx = t * chunkSize;
+        size_t endIdx = (t == numThreads - 1) ? rgbadata.size() : (t + 1) * chunkSize;
+
+        futures.emplace_back(std::async(std::launch::async, [startIdx, endIdx, &rgbadata, &temperatures]() {
+            for (size_t i = startIdx; i < endIdx; ++i) {
+                temperatures[i] = rgbToColorTemperature(rgbadata[i]);
+            }
+            }));
     }
 
-    // Sort and find median
-    std::sort(temperatures.begin(), temperatures.end());
-    size_t size = temperatures.size();
-    double median = (size % 2 == 0) ? (temperatures[size / 2 - 1] + temperatures[size / 2]) / 2.0 : temperatures[size / 2];
-    return median;
+    // Wait for all threads to finish
+    for (auto& fut : futures) {
+        fut.get();
+    }
+
+    // Sort and calculate median
+    std::nth_element(temperatures.begin(), temperatures.begin() + temperatures.size() / 2, temperatures.end());
+    size_t mid = temperatures.size() / 2;
+    if (temperatures.size() % 2 == 0) {
+        double lower = *std::max_element(temperatures.begin(), temperatures.begin() + mid);
+        double upper = temperatures[mid];
+        return (lower + upper) / 2.0;
+    }
+    else {
+        return temperatures[mid];
+    }
 }
 
 
 
+
 // Multi-threaded sorting based on color temperature
+//void threaded_sort(std::vector<std::string>& filenames) {
+//    std::vector<std::future<double>> futures;
+//
+//    // Launch asynchronous tasks to calculate median temperatures for better stability
+//    for (const auto& filename : filenames) {
+//        futures.emplace_back(std::async(std::launch::async, calculate_median_temperature, filename));
+//    }
+//
+//    // Collect temperatures and associate them with filenames
+//    std::vector<std::pair<std::string, double>> temp_pairs;
+//    for (size_t i = 0; i < filenames.size(); ++i) {
+//        double temp = futures[i].get();
+//        temp_pairs.emplace_back(filenames[i], temp);
+//    }
+//
+//    // Sort filenames based on temperature
+//    std::sort(temp_pairs.begin(), temp_pairs.end(), [](const auto& lhs, const auto& rhs) {
+//        return lhs.second > rhs.second; //decending order
+//        });
+//
+//    // Reorder filenames according to sorted temperatures
+//    for (size_t i = 0; i < filenames.size(); ++i) {
+//        filenames[i] = temp_pairs[i].first;
+//    }
+//}
+
 void threaded_sort(std::vector<std::string>& filenames) {
-    std::vector<std::future<double>> futures;
+    std::vector<std::pair<std::string, double>> temp_pairs(filenames.size());
 
-    // Launch asynchronous tasks to calculate median temperatures for better stability
-    for (const auto& filename : filenames) {
-        futures.emplace_back(std::async(std::launch::async, calculate_median_temperature, filename));
-    }
+    // Use parallel execution policy for temperature calculations
+    std::transform(
+        std::execution::par,
+        filenames.begin(),
+        filenames.end(),
+        temp_pairs.begin(),
+        [](const std::string& filename) -> std::pair<std::string, double> {
+            return { filename, calculate_median_temperature(filename) };
+        }
+    );
 
-    // Collect temperatures and associate them with filenames
-    std::vector<std::pair<std::string, double>> temp_pairs;
-    for (size_t i = 0; i < filenames.size(); ++i) {
-        double temp = futures[i].get();
-        temp_pairs.emplace_back(filenames[i], temp);
-    }
+    // Sort temp_pairs in descending order using parallel execution
+    std::sort(
+        std::execution::par,
+        temp_pairs.begin(),
+        temp_pairs.end(),
+        [](const auto& lhs, const auto& rhs) {
+            return lhs.second > rhs.second;
+        }
+    );
 
-    // Sort filenames based on temperature
-    std::sort(temp_pairs.begin(), temp_pairs.end(), [](const auto& lhs, const auto& rhs) {
-        return lhs.second > rhs.second; //decending order
-        });
-
-    // Reorder filenames according to sorted temperatures
-    for (size_t i = 0; i < filenames.size(); ++i) {
-        filenames[i] = temp_pairs[i].first;
-    }
+    // Reorder filenames based on sorted order
+    std::transform(
+        temp_pairs.begin(),
+        temp_pairs.end(),
+        filenames.begin(),
+        [](const auto& pair) {
+            return pair.first;
+        }
+    );
 }
 
 std::pair<double, double> calculate_temperature_range(const std::string& filename) {
