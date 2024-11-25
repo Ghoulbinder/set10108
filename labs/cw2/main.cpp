@@ -14,7 +14,7 @@
 #include <functional>              // For std::function
 #include <condition_variable>      // For std::condition_variable
 #include <execution>               // For parallel STL (optional, depending on use)
-#include <limits>                  // For numeric limits like `std::numeric_limits`
+#include <limits>                  // For numeric limits like std::numeric_limits
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
@@ -41,9 +41,6 @@ struct rgba_t
     uint8_t b;
     uint8_t a;
 };
-
-// CUDA function from cw2.cu
-extern "C" void gpuSortImagesByTemperature(std::vector<std::string>& filenames);
 
 // Helper function to load RGB data from a file, as a contiguous array (row-major) of RGB triplets, where each of R,G,B is a uint8_t and ranges from 0 to 255
 std::vector<rgba_t> load_rgb(const char* filename, int& width, int& height)
@@ -95,7 +92,7 @@ double rgbToColorTemperature(rgba_t rgba) {
     //double CCT = -949.86315 + 6253.80338 * exp(-n / 0.92159) + 28.70599 * exp(-n / 0.20039) +
     //    0.00004 * exp(-n / 0.07125);
 
-   
+
     return CCT;
 }
 
@@ -118,31 +115,32 @@ double calculate_median_temperature(const std::string& filename) {
 
 
 
-// CPU-based sorting function
-void cpuSortImagesByTemperature(std::vector<std::string>& filenames) {
-    std::vector<std::pair<std::string, double>> tempPairs;
+// Multi-threaded sorting based on color temperature
+void threaded_sort(std::vector<std::string>& filenames) {
+    std::vector<std::future<double>> futures;
 
-    // Calculate median temperature for each image
+    // Launch asynchronous tasks to calculate median temperatures for better stability
     for (const auto& filename : filenames) {
-        double medianTemp = calculate_median_temperature(filename);
-        tempPairs.emplace_back(filename, medianTemp);
+        futures.emplace_back(std::async(std::launch::async, calculate_median_temperature, filename));
     }
 
-    // Sort by temperature
-    std::sort(tempPairs.begin(), tempPairs.end(),
-        [](const auto& lhs, const auto& rhs) { return lhs.second > rhs.second; });
-
-    // Update filenames with sorted order
-    for (size_t i = 0; i < tempPairs.size(); ++i) {
-        filenames[i] = tempPairs[i].first;
+    // Collect temperatures and associate them with filenames
+    std::vector<std::pair<std::string, double>> temp_pairs;
+    for (size_t i = 0; i < filenames.size(); ++i) {
+        double temp = futures[i].get();
+        temp_pairs.emplace_back(filenames[i], temp);
     }
 
-    // Print sorted filenames and temperatures
-    for (const auto& pair : tempPairs) {
-        std::cout << "Image: " << pair.first << " - Assigned Temperature: " << pair.second << "K\n";
+    // Sort filenames based on temperature
+    std::sort(temp_pairs.begin(), temp_pairs.end(), [](const auto& lhs, const auto& rhs) {
+        return lhs.second > rhs.second; //decending order
+        });
+
+    // Reorder filenames according to sorted temperatures
+    for (size_t i = 0; i < filenames.size(); ++i) {
+        filenames[i] = temp_pairs[i].first;
     }
 }
-
 
 std::pair<double, double> calculate_temperature_range(const std::string& filename) {
     int width, height;
@@ -170,9 +168,6 @@ sf::Vector2f SpriteScaleFromDimensions(const sf::Vector2u& textureSize, int scre
     return { scale, scale };
 }
 
-
-
-
 int main()
 {
     std::srand(static_cast<unsigned int>(std::time(NULL)));
@@ -188,30 +183,29 @@ int main()
     for (auto& p : fs::directory_iterator(image_folder))
         imageFilenames.push_back(p.path().u8string());
 
-    // Copy for GPU sorting
-    std::vector<std::string> gpuImageFilenames = imageFilenames;
+    // Measure sorting time
+    auto start_time = std::chrono::high_resolution_clock::now(); // Start timer
 
-    // CPU Sorting
-    std::cout << "=== CPU Sorting ===\n";
-    auto cpuStartTime = std::chrono::high_resolution_clock::now();
-    cpuSortImagesByTemperature(imageFilenames);
-    auto cpuEndTime = std::chrono::high_resolution_clock::now();
-    std::cout << "CPU Sorting completed in "
-        << std::chrono::duration_cast<std::chrono::milliseconds>(cpuEndTime - cpuStartTime).count()
-        << " ms.\n\n";
 
-    // GPU Sorting
-    std::cout << "=== GPU Sorting ===\n";
-    auto gpuStartTime = std::chrono::high_resolution_clock::now();
-    gpuSortImagesByTemperature(gpuImageFilenames);
-    auto gpuEndTime = std::chrono::high_resolution_clock::now();
-    std::cout << "GPU Sorting completed in "
-        << std::chrono::duration_cast<std::chrono::milliseconds>(gpuEndTime - gpuStartTime).count()
-        << " ms.\n";
+    /////////////////////////////////////////////////////////////////////////////////////////////// 
+    //  YOUR CODE HERE INSTEAD, TO ORDER THE IMAGES IN A MULTI-THREADED MANNER WITHOUT BLOCKING  //
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+     // Sort images by temperature in a multi-threaded manner
+    threaded_sort(imageFilenames);
 
-    // Output GPU sorted results
-    for (const auto& filename : gpuImageFilenames) {
-        std::cout << "Image: " << filename << "\n";
+    // End timer
+    auto end_time = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end_time - start_time;
+    std::cout << "Sorting completed in " << duration.count() << " seconds.\n";
+
+    //// Confirm sorting by printing
+    //for (const auto& filename : imageFilenames) {
+    //    double temp = calculate_median_temperature(filename);
+    //    std::cout << "Image: " << filename << " - Temperature: " << temp << "K\n";
+    //}
+    for (const auto& filename : imageFilenames) {
+        double assigned_temp = calculate_median_temperature(filename); // Assigned temp (median)
+        std::cout << "Image: " << filename << " - Assigned Temperature: " << assigned_temp << "K\n";
     }
 
 
